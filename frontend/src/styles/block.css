@@ -1,0 +1,42 @@
+.code-block {
+    width: 100%;
+    background-color: #23262e;
+    color: whitesmoke;
+    padding: 0px 0px;
+    display: flex;
+    border-left: #afaeb1 3px solid;
+    /* margin: 10px; */
+}
+
+
+.code-block-info {
+    width: 100px;
+    padding: 0px 10px;
+    background-color: #262a33;
+}
+
+
+.code-block-content{
+    width:100%;
+    padding: 10px 10px;
+    margin:0px;
+    font-size: x-large;
+}
+.code-block-content:focus{
+    outline: none;
+    border: 1px #afaeb1 solid;
+}
+.run-code-button{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    margin-top: 5px;
+    padding: 3px 6px 2px 6px;
+}
+.run-code-button>img{
+    width: 20px;
+}
+.run-code-button:hover{
+    background-color: rgba(213, 213, 213, 0.203);
+}
