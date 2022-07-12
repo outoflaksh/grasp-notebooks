@@ -1,3 +1,8 @@
+.block{
+    width:100%;
+    
+}
+
 .code-block {
     width: 100%;
     background-color: #23262e;
@@ -5,7 +10,6 @@
     padding: 0px 0px;
     display: flex;
     border-left: #afaeb1 3px solid;
-    /* margin: 10px; */
 }
 
 
@@ -39,4 +43,40 @@
 }
 .run-code-button:hover{
     background-color: rgba(213, 213, 213, 0.203);
+}
+
+
+.output-block{
+    margin-top: 10px;
+    width: 100%;
+    background-color: #262a33;
+    color: whitesmoke;
+    padding: 0px 0px;
+    display: flex;
+    border-left: lightgreen 3px solid;
+}
+.output-block-info{
+    width: 100px;
+    padding-left: 10px;
+}
+
+.clear-output{
+    /* padding-top:50px; */
+    /* display: inline-block; */
+    padding:2px 5px;
+    padding-bottom:5px;
+    cursor: pointer;
+}
+
+.clear-output:hover{
+    background-color: rgba(213, 213, 213, 0.203);
+}
+
+.output-text{
+    width:100%;
+    /* background-color: #23262e; */
+    padding:10px;
+    padding-top:0px;
+    padding-left:0px;
+    font-size: x-large;
 }
