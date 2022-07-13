@@ -21,10 +21,10 @@ def run_sql_query(query: str):
     try:
         result = conn.execute(query)
         conn.close()
-        return list(result)
+        return [True,list(result)]
 
     except Exception as err:
-        return [str(err.orig), str(err.statement)]
+        return [False,[str(err.orig), str(err.statement)]]
 
 
 # names = ["michael", "jim", "dwight", "pam"]

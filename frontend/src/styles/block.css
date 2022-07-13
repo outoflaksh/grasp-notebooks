@@ -53,8 +53,19 @@
     color: whitesmoke;
     padding: 0px 0px;
     display: flex;
+    
+}
+
+.output-success{
     border-left: lightgreen 3px solid;
 }
+
+.output-error{
+    border-left: rgb(255, 71, 71) 3px solid;
+}
+
+
+
 .output-block-info{
     width: 100px;
     padding-left: 10px;

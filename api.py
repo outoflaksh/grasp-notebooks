@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from main import run_sql_query
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 origins = ["*"]
 
@@ -25,4 +25,7 @@ class Query(BaseModel):
 def run_query(query: Query):
     result = run_sql_query(query.query)
 
-    return {"result": result}
+    return {
+        "result": result[1],
+        "status": result[0]
+        }
