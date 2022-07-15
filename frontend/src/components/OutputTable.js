@@ -1,4 +1,4 @@
-
+import "../styles/outputTable.css"
 
 function OutputTable({ data }) {
     // console.log(data);
@@ -6,7 +6,7 @@ function OutputTable({ data }) {
     let bodyArr = [...data];
     bodyArr.shift();
     return (
-        <table>
+        <table className="output-table">
             <thead>
                 <tr>
                     {headingArr.map(col => <td key={col}>{col}</td>)}

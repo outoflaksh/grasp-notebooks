@@ -1,0 +1,16 @@
+.output-table{
+    /* width: 100%; */
+}
+
+.output-table tr{
+}
+
+.output-table thead td{
+    font-weight: 500;
+}
+
+.output-table  td{
+    font-size: x-large;
+    padding: 2px 20px;
+    padding-left: 0px;
+}
