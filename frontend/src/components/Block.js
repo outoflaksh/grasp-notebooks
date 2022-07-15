@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import "../styles/block.css"
 import runCodeIcon from "../assets/runCode.png"
 import OutputTable from "./OutputTable";
+import { NotebookContext } from "../contexts";
 
 
 function sqlizeData(data) {
@@ -21,6 +22,9 @@ function sqlizeData(data) {
     return matrix;
 }
 
+function unescapeHTML(escapedHTML) {
+    return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
 
 
 async function executeQuery(code) {
@@ -42,83 +46,88 @@ async function executeQuery(code) {
 
 
 
-function Block() {
+function Block({ blockId }) {
     const codeBlockContent = useRef();
-    const [output, setOutput] = useState("");
-    const [outputStatus, setOutputStatus] = useState(false);
+    const { notebook, setBlock } = useContext(NotebookContext);
 
     async function runCode() {
-        setOutput("");
-        let content = codeBlockContent.current.innerHTML;
-        let sanitizedCode = content.replace(/(<([^>]+)>)/ig, '');
+        clearOutput();
+        let code = codeBlockContent.current.innerHTML;
+        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/ig, ''));
         let data = await executeQuery(sanitizedCode);
         let newOutput = "";
         if (data.status) {
             newOutput = sqlizeData(data.result);
-            // console.log("sqlized data",newOutput);
-            setOutput(newOutput);
+            let newBlock = {
+                code: sanitizedCode,
+                output: newOutput,
+                outputStatus: true,
+            };
+            setBlock(blockId, newBlock);
         }
         else {
             newOutput = data.result[0];
-            setOutput(newOutput);
+            let newBlock = {
+                code: sanitizedCode,
+                output: newOutput,
+                outputStatus: false,
+            };
+            setBlock(blockId, newBlock);
         }
-        setOutputStatus(data.status);
     }
     function clearOutput() {
-        setOutput("");
+        let code = codeBlockContent.current.innerHTML;
+        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/ig, ''));
+        let newBlock = {
+            code: sanitizedCode,
+            output: "",
+            outputStatus: false,
+        };
+        setBlock(blockId, newBlock);
     }
     return (
         <div className="block">
             <div className="code-block">
                 <div className="code-block-info">
-                    <button
-                        className="run-code-button"
-                        onClick={runCode}>
+                    <button className="run-code-button" onClick={runCode}>
                         <img src={runCodeIcon} />
                     </button>
                 </div>
-                <pre className="code-block-content" contentEditable="true" ref={codeBlockContent} spellCheck="false">
-                </pre>
+                <pre
+                    className="code-block-content"
+                    contentEditable="true"
+                    ref={codeBlockContent}
+                    spellCheck="false"
+                />
             </div>
-            {
-                (() => {
-                    if (output.length > 0) {
-                        return (
-                            <div
-                                className={
-                                    "output-block" +
-                                    " " +
-                                    (outputStatus ? "output-success" : "output-error")
-                                }
-                            >
-                                <div className="output-block-info">
-                                    <span className="clear-output" onClick={clearOutput}>[ CLEAR ]</span>
-                                </div>
-                                {
-                                    (() => {
-                                        if (outputStatus) {
-                                            return <OutputTable data={output}></OutputTable>;
-                                        }
-                                        else {
-                                            return (
-                                                <div className="output-text">
-                                                    {output}
-                                                </div>
-                                            );
-                                        }
-                                    })()
-                                }
-
+            {(() => {
+                if (notebook[blockId].output.length > 0)
+                    return (
+                        <div
+                            className={
+                                "output-block" +
+                                " " +
+                                (notebook[blockId].outputStatus ? "output-success" : "output-error")
+                            }
+                        >
+                            <div className="output-block-info">
+                                <span className="clear-output" onClick={clearOutput}>[ CLEAR ]</span>
                             </div>
-                        );
-                    }
-                    else {
-                        return null;
-                    }
-                })()
-            }
-
-        </div>
+                            {(() => {
+                                if (notebook[blockId].outputStatus)
+                                    return <OutputTable data={notebook[blockId].output}></OutputTable>;
+                                else
+                                    return (
+                                        <div className="output-text">
+                                            {notebook[blockId].output}
+                                        </div>
+                                    );
+                            })()}
+                        </div>
+                    );
+                else return null;
+            })()}
+        </div >
     );
 }
 
