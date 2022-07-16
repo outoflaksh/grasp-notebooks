@@ -6,6 +6,7 @@
 body{
     /* padding: 10px; */
     margin: 0px;
+    padding:0px;
 }
 
 .main{
@@ -13,9 +14,10 @@ body{
     width:calc(100vw - 20px); */
     height:100vh;
     width:100vw;
+    /* padding: 1rem; */
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 10px;
-    
+    overflow:hidden;
+    /* padding: 10px; */
 }
