@@ -1,6 +1,6 @@
 import os
 from sqlalchemy import create_engine, text
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, ResourceClosedError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -21,10 +21,12 @@ def run_sql_query(query: str):
     try:
         result = conn.execute(query)
         conn.close()
-        return [True,list(result)]
 
+        return [True, list(result)]
+    except ResourceClosedError as err:
+        return [False, ["Ran successfully"]]
     except Exception as err:
-        return [False,[str(err.orig), str(err.statement)]]
+        return [False, [str(err)]]
 
 
 # names = ["michael", "jim", "dwight", "pam"]
