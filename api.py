@@ -27,20 +27,18 @@ class Query(BaseModel):
 def run_query(query: Query):
     result = run_sql_query(query.query)
 
-    return {
-        "result": result[1],
-        "status": result[0]
-        }
+    return {"result": result[1], "status": result[0]}
+
 
 @app.post("/save")
 def save(new_notebook: list):
     global notebook
     notebook = new_notebook
-    print("saving\n",notebook)
-    return {"result":"saved"}
+    print("saving\n", notebook)
+    return {"result": "saved"}
 
 
 @app.get("/notebook")
 def notebook():
-    print("getting\n",notebook)
-    return {"notebook":notebook}
+    print("getting\n", notebook)
+    return {"notebook": notebook}
