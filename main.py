@@ -27,30 +27,3 @@ def run_sql_query(query: str):
         return [False, ["Ran successfully"]]
     except Exception as err:
         return [False, [str(err)]]
-
-
-# names = ["michael", "jim", "dwight", "pam"]
-
-
-# for name in names:
-#     conn.execute(text(f"INSERT INTO {table_name} VALUES('{name}', '{len(name)*5}');"))
-
-# try:
-#     result = conn.execute(text(f"SELECT * FRO {table_name};"))
-
-#     print(list(result))
-
-#     for i in result:
-#         print(i)
-# except OperationalError as err:
-#     print(f"Error: {str(err.orig)}\nat statement: {err.statement}")
-
-# conn.close()
-# connection = MySQLdb.connect(
-#     host=os.getenv("HOST"),
-#     user=os.getenv("USERNAME"),
-#     passwd=os.getenv("PASSWORD"),
-#     db=os.getenv("DATABASE"),
-#     ssl_mode="VERIFY_IDENTITY",
-#     ssl={"ca": "/etc/ssl/cert.pem"},
-# )
