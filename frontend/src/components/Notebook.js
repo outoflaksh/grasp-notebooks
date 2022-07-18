@@ -8,11 +8,6 @@ import Block from "./Block";
 
 function Notebook() {
     let { notebook, setNotebook, copyNotebook } = useContext(NotebookContext);
-    function addBlockBelow(blockId) {
-        let newNotebook = copyNotebook(notebook);
-        newNotebook.splice(blockId + 1, 0, { code: "", output: "", outputStatus: false });
-        setNotebook(newNotebook);
-    }
     async function saveNotebook() {
         const requestBody = JSON.stringify(notebook);
         const response = await fetch("http://localhost:8000/save/", {
@@ -37,7 +32,6 @@ function Notebook() {
                         return (
                             <div className="block-wrapper" key={"block-wrapper" + blockId}>
                                 <Block blockId={blockId} key={"block" + blockId} />
-                                <button onClick={() => addBlockBelow(blockId)}>add block</button>
                             </div>
                         );
                     })

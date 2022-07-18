@@ -91,3 +91,14 @@
     padding-left:0px;
     font-size: x-large;
 }
+.block-optn-wrapper{
+    height:20px;
+    width: 100%;
+    display: flex;
+    justify-content:center;
+}
+
+
+.hide{
+    display: none;
+}
