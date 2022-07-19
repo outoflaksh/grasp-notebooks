@@ -43,10 +43,10 @@ async function executeQuery(code) {
     return data;
 }
 
-function Block({ blockId }) {
+function Block({ blockId, blockIdx }) {
     const codeBlockContent = useRef();
     const block = useRef();
-    const { notebook, setBlock, copyNotebook, setNotebook } = useContext(NotebookContext);
+    const { notebook, setBlock, copyNotebook, setNotebook,blockCounter, setBlockCounter } = useContext(NotebookContext);
 
 
     useEffect(
@@ -79,16 +79,18 @@ function Block({ blockId }) {
                 code: sanitizedCode,
                 output: newOutput,
                 outputStatus: true,
+                id:blockId,
             };
-            setBlock(blockId, newBlock);
+            setBlock(blockIdx, newBlock);
         } else {
             newOutput = data.result[0];
             let newBlock = {
                 code: sanitizedCode,
                 output: newOutput,
                 outputStatus: false,
+                id: blockId,
             };
-            setBlock(blockId, newBlock);
+            setBlock(blockIdx, newBlock);
         }
     }
     function clearOutput() {
@@ -98,20 +100,22 @@ function Block({ blockId }) {
             code: sanitizedCode,
             output: "",
             outputStatus: false,
+            id: blockId,
         };
-        setBlock(blockId, newBlock);
+        setBlock(blockIdx, newBlock);
     }
-    function addBlockBelow(blockId) {
+    function addBlockBelow() {
         let newNotebook = copyNotebook(notebook);
-        newNotebook.splice(blockId + 1, 0, { code: "", output: "", outputStatus: false });
+        let newBlock = { code: "", output: "", outputStatus: false,id:blockCounter+1 };
+        setBlockCounter(blockCounter+1);
+        newNotebook.splice(blockIdx + 1, 0, newBlock);
         setNotebook(newNotebook);
     }
-    function removeBlock(blockId){
+    function removeBlock() {
         let newNotebook = copyNotebook(notebook);
-        newNotebook.splice(blockId,1);
+        newNotebook.splice(blockIdx, 1);
         setNotebook(newNotebook);
     }
-
     return (
         <div className="block" ref={block}>
             <div className="code-block">
@@ -120,7 +124,7 @@ function Block({ blockId }) {
                         <img src={runCodeIcon} />
                     </button>
                 </div>
-                <pre
+                <div
                     className="code-block-content"
                     contentEditable="true"
                     ref={codeBlockContent}
@@ -128,13 +132,13 @@ function Block({ blockId }) {
                 />
             </div>
             {(() => {
-                if (notebook[blockId].output.length > 0)
+                if (notebook[blockIdx].output.length > 0)
                     return (
                         <div
                             className={
                                 "output-block" +
                                 " " +
-                                (notebook[blockId].outputStatus
+                                (notebook[blockIdx].outputStatus
                                     ? "output-success"
                                     : "output-error")
                             }
@@ -145,14 +149,14 @@ function Block({ blockId }) {
                                 </span>
                             </div>
                             {(() => {
-                                if (notebook[blockId].outputStatus)
+                                if (notebook[blockIdx].outputStatus)
                                     return (
-                                        <OutputTable data={notebook[blockId].output}></OutputTable>
+                                        <OutputTable data={notebook[blockIdx].output}></OutputTable>
                                     );
                                 else
                                     return (
                                         <div className="output-text">
-                                            {notebook[blockId].output}
+                                            {notebook[blockIdx].output}
                                         </div>
                                     );
                             })()}
@@ -163,15 +167,15 @@ function Block({ blockId }) {
             <div className="block-optn-wrapper">
                 <button
                     className="block-optn hide"
-                    onClick={() => addBlockBelow(blockId)}
+                    onClick={addBlockBelow}
                 >
-                    add block
+                    Insert Block
                 </button>
                 <button
                     className="block-optn hide"
-                    onClick={()=>removeBlock(blockId)}
+                    onClick={removeBlock}
                 >
-                    remove block
+                    Delete Block
                 </button>
             </div>
         </div>

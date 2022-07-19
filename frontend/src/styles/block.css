@@ -17,6 +17,7 @@
     width: 120px;
     padding: 0px 10px;
     background-color: #262a33;
+    border: 1px transparent solid;
 }
 
 
@@ -25,6 +26,8 @@
     padding: 10px 10px;
     margin:0px;
     font-size: x-large;
+    resize: none;
+    height: 43px;
 }
 .code-block-content:focus{
     outline: none;
@@ -92,7 +95,7 @@
     font-size: x-large;
 }
 .block-optn-wrapper{
-    height:20px;
+    height:35px;
     width: 100%;
     display: flex;
     justify-content:center;
