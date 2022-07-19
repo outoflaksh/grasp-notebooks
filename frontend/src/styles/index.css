@@ -16,6 +16,7 @@ body{
     font-weight: 300;
     width: 100%;
     min-height: 100vh;
+    background-color: var(--bg-color);
 }
 
 button {
@@ -25,7 +26,7 @@ button {
 .main{
     /* height:calc(100vh - 20px);
     width:calc(100vw - 20px); */
-    height:100vh;
+    height:89vh;
     width:100vw;
     /* padding: 1rem; */
     display: flex;
