@@ -26,8 +26,6 @@
     padding: 10px 10px;
     margin:0px;
     font-size: x-large;
-    resize: none;
-    height: 43px;
 }
 .code-block-content:focus{
     outline: none;
