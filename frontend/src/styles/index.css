@@ -1,3 +1,10 @@
+:root{
+    --bg-color: #262a33;
+    --bg-color2: #23262e;
+    --text-color: white;
+    --highlight-color: rgba(213, 213, 213, 0.203);
+}
+
 *{
     box-sizing: border-box;
     margin: 0px;

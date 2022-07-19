@@ -1,0 +1,47 @@
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-color);
+    padding: 0rem 1rem;
+    color: white;
+    width: 100%;
+}
+
+.nav > .left, .right{
+    background-color: var(--bg-color);
+    align-items: center;
+}
+
+.nav > .left{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+
+.brand {
+    font-family: 'Cairo', sans-serif;
+    /* font-weight: 300; */
+    /* color: white; */
+    margin: 0px 15px;
+    margin-top: -5px;
+    margin-left: 0px;
+    font-size: 2.5rem;
+    /* width: 50px; */
+}
+
+button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    padding: 10px 15px;
+    color: white;
+    /* height: 50%; */
+    cursor: pointer;
+}
+button:hover{
+    background-color: var(--highlight-color);
+}

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { NotebookContext } from "../contexts";
+import { NotebookContext } from "../contexts/notebookContext";
 import "../styles/notebook.css";
 import Block from "./Block";
 import { v4 as uuidv4 } from "uuid";
@@ -34,7 +34,6 @@ function Notebook() {
     return (
         <div className="notebook-wrapper">
             <div className="notebook-control">
-                <h1 className="brand">grasp</h1>
                 <button onClick={saveNotebook}>Save</button>
                 <button>Clear All Output</button>
                 <button onClick={startFresh}>Start Fresh</button>

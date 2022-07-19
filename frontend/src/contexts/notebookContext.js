@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import Block from "./components/Block";
+import Block from "../components/Block";
 
 export const NotebookContext = createContext();
-
-
-
 
 
 export function NotebookProvider({ children }) {

@@ -8,24 +8,21 @@
     display: flex;
     align-items: center;
     padding: 1rem;
-    background-color: #262a33;
-}
-
-.notebook-control .brand {
+    padding-left:0rem;
+    background-color: var(--bg-color);
     font-family: 'Cairo', sans-serif;
     color: white;
-    margin: 0px 15px;
     margin-top: -5px;
-    margin-left: 0px;
     font-size: 2.5rem;
 }
+
 
 .notebook {
     color: white;
     padding: 1rem;
     width: 100%;
     height: 100%;
-    background-color: #262a33;
+    background-color: var(--bg-color);
     overflow-y: auto;
 }
 
@@ -36,16 +33,15 @@
     margin-top: 0px;
 }
 
-.notebook-control button {
+button {
     background-color: transparent;
     outline: none;
     border: none;
     border-radius: 2px;
     padding: 10px 15px;
     color: white;
-    height: 50%;
     cursor: pointer;
 }
 button:hover{
-    background-color: rgba(213, 213, 213, 0.203);
+    background-color: var(--highlight-color);
 }

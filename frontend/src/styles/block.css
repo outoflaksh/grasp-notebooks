@@ -5,19 +5,20 @@
 
 .code-block {
     width: 100%;
-    background-color: #23262e;
+    background-color: var(--bg-color2);
     color: whitesmoke;
     padding: 0px 0px;
     display: flex;
-    border-left: #afaeb1 3px solid;
+    border-left: white 3px solid;
 }
 
 
 .code-block-info {
     width: 120px;
     padding: 0px 10px;
-    background-color: #262a33;
+    background-color: var(--bg-color);
     border: 1px transparent solid;
+    height:52px;
 }
 
 
@@ -29,7 +30,7 @@
 }
 .code-block-content:focus{
     outline: none;
-    border: 1px #afaeb1 solid;
+    border: 1px white solid;
 }
 .run-code-button{
     background-color: transparent;
@@ -43,27 +44,26 @@
     width: 20px;
 }
 .run-code-button:hover{
-    background-color: rgba(213, 213, 213, 0.203);
+    background-color: var(--highlight-color);
 }
 
 .block-optn {
     background-color: transparent;
     outline: none;
-    border: 1px solid gray;
+    border: 1px solid white;
     margin: 0 5px;
     padding: 10px 15px;
-    color: rgb(199, 199, 199);
+    color: white;
     cursor: pointer;
 }
 
 .output-block{
     margin-top: 10px;
     width: 100%;
-    background-color: #262a33;
-    color: whitesmoke;
+    background-color: var(--bg-color);
+    color: white;
     padding: 0px 0px;
     display: flex;
-    
 }
 
 .output-success{
@@ -90,7 +90,7 @@
 }
 
 .clear-output:hover{
-    background-color: rgba(213, 213, 213, 0.203);
+    background-color: var(--highlight-color);
 }
 
 .output-text{

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import "../styles/block.css";
 import runCodeIcon from "../assets/runCode.png";
 import OutputTable from "./OutputTable";
-import { NotebookContext } from "../contexts";
+import { NotebookContext } from "../contexts/notebookContext";
 
 function sqlizeData(data) {
     let columns = [];
