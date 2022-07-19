@@ -49,10 +49,10 @@
 .block-optn {
     background-color: transparent;
     outline: none;
-    border: none;
-    border-radius: 2px;
+    border: 1px solid gray;
+    margin: 0 5px;
     padding: 10px 15px;
-    color: white;
+    color: rgb(199, 199, 199);
     cursor: pointer;
 }
 
@@ -103,9 +103,10 @@
 }
 .block-optn-wrapper{
     height:35px;
-    width: 100%;
     display: flex;
-    justify-content:center;
+    justify-content:left;
+    margin-top: 15px;
+    margin-left: -5px;
 }
 
 

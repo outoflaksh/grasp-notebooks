@@ -174,10 +174,10 @@ function Block({ blockId, blockIdx }) {
       })()}
       <div className="block-optn-wrapper">
         <button className="block-optn hide" onClick={addBlockBelow}>
-          Insert Block
+          Add new block
         </button>
         <button className="block-optn hide" onClick={removeBlock}>
-          Delete Block
+          Delete block
         </button>
       </div>
     </div>
