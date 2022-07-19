@@ -1,7 +1,6 @@
 .notebook-wrapper {
     height: 100%;
     width: 100%;
-    /* display: flex; */
 }
 
 .notebook-control {
@@ -31,17 +30,4 @@
     display: flex;
     margin: 2rem 0rem;
     margin-top: 0px;
-}
-
-button {
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-radius: 2px;
-    padding: 10px 15px;
-    color: white;
-    cursor: pointer;
-}
-button:hover{
-    background-color: var(--highlight-color);
 }

@@ -47,15 +47,7 @@
     background-color: var(--highlight-color);
 }
 
-.block-optn {
-    background-color: transparent;
-    outline: none;
-    border: 1px solid white;
-    margin: 0 5px;
-    padding: 10px 15px;
-    color: white;
-    cursor: pointer;
-}
+
 
 .output-block{
     margin-top: 10px;
@@ -74,16 +66,12 @@
     border-left: rgb(255, 71, 71) 3px solid;
 }
 
-
-
 .output-block-info{
     width: 120px;
     padding-left: 10px;
 }
 
 .clear-output{
-    /* padding-top:50px; */
-    /* display: inline-block; */
     padding:2px 5px;
     padding-bottom:5px;
     cursor: pointer;
@@ -102,13 +90,22 @@
     font-size: x-large;
 }
 .block-optn-wrapper{
-    height:35px;
+    height:40px;
     display: flex;
     justify-content:left;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: -10px;
     margin-left: -5px;
 }
-
+.block-optn {
+    background-color: transparent;
+    outline: none;
+    border: 1px solid white;
+    margin: 0 5px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+}
 
 .hide{
     display: none;
