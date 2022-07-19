@@ -48,6 +48,15 @@
     background-color: rgba(213, 213, 213, 0.203);
 }
 
+.block-optn {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+}
 
 .output-block{
     margin-top: 10px;
