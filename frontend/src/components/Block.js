@@ -3,45 +3,9 @@ import "../styles/block.css";
 import runCodeIcon from "../assets/runCode.png";
 import OutputTable from "./OutputTable";
 import { NotebookContext } from "../contexts/notebookContext";
+import { v4 as uuidv4 } from "uuid";
+import {sqlizeData, unescapeHTML, executeQuery} from "../utils";
 
-function sqlizeData(data) {
-    let columns = [];
-    for (let column in data[0]) {
-        columns.push(column);
-    }
-    let matrix = [[...columns]];
-    data.shift();
-    for (let r of data) {
-        let row = [];
-        for (let col_name of columns) {
-            row.push(r[col_name]);
-        }
-        matrix.push(row);
-    }
-    return matrix;
-}
-
-function unescapeHTML(escapedHTML) {
-    return escapedHTML
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&amp;/g, "&");
-}
-
-async function executeQuery(code) {
-    const requestBody = JSON.stringify({ query: code });
-    const response = await fetch("http://localhost:8000/run/", {
-        method: "POST",
-        mode: "cors",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: requestBody,
-    });
-    const data = await response.json();
-    return data;
-}
 
 function Block({ blockId, blockIdx }) {
     const codeBlockContent = useRef();
@@ -51,22 +15,16 @@ function Block({ blockId, blockIdx }) {
         setBlock,
         copyNotebook,
         setNotebook,
-        blockCounter,
-        setBlockCounter,
     } = useContext(NotebookContext);
 
     useEffect(() => {
         block.current.addEventListener("mouseover", () => {
             let optns = block.current.querySelectorAll(".block-optn");
-            optns.forEach((element) => {
-                element.classList.remove("hide");
-            });
+            optns.forEach((element) => element.classList.remove("hide"));
         });
         block.current.addEventListener("mouseleave", () => {
             let optns = block.current.querySelectorAll(".block-optn");
-            optns.forEach((element) => {
-                element.classList.add("hide");
-            });
+            optns.forEach((element) => element.classList.add("hide"));
         });
     }, []);
 
@@ -76,25 +34,21 @@ function Block({ blockId, blockIdx }) {
         let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
         let data = await executeQuery(sanitizedCode);
         let newOutput = "";
+        let newBlock = {
+            code: sanitizedCode,
+            output: "",
+            outputStatus: false,
+            id: blockId,
+        };
         if (data.status) {
             newOutput = sqlizeData(data.result);
-            let newBlock = {
-                code: sanitizedCode,
-                output: newOutput,
-                outputStatus: true,
-                id: blockId,
-            };
-            setBlock(blockIdx, newBlock);
+            newBlock.output = newOutput;
+            newBlock.outputStatus = true;
         } else {
             newOutput = data.result[0];
-            let newBlock = {
-                code: sanitizedCode,
-                output: newOutput,
-                outputStatus: false,
-                id: blockId,
-            };
-            setBlock(blockIdx, newBlock);
+            newBlock.output = newOutput;
         }
+        setBlock(blockIdx, newBlock);
     }
     function clearOutput() {
         let code = codeBlockContent.current.innerHTML;
@@ -113,9 +67,8 @@ function Block({ blockId, blockIdx }) {
             code: "",
             output: "",
             outputStatus: false,
-            id: blockCounter + 1,
+            id: uuidv4(),
         };
-        setBlockCounter(blockCounter + 1);
         newNotebook.splice(blockIdx + 1, 0, newBlock);
         setNotebook(newNotebook);
     }

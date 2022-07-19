@@ -1,7 +1,6 @@
 import "../styles/outputTable.css"
 
 function OutputTable({ data }) {
-    // console.log(data);
     let headingArr = data[0];
     let bodyArr = [...data];
     bodyArr.shift();

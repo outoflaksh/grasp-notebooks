@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import Block from "../components/Block";
-
+import { createContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 export const NotebookContext = createContext();
 
 
@@ -9,9 +8,8 @@ export function NotebookProvider({ children }) {
         code: "",
         output: "",
         outputStatus: false,
-        id: 0,
+        id: uuidv4,
     }]);
-    const [blockCounter, setBlockCounter] = useState(0);
 
     function copyNotebook(notebook) {
         let newNotebook = [];
@@ -24,7 +22,7 @@ export function NotebookProvider({ children }) {
             };
             newNotebook.push(newBlock);
         }
-        return newNotebook
+        return newNotebook;
     }
 
     function setBlock(blockId, block) {
@@ -33,9 +31,14 @@ export function NotebookProvider({ children }) {
         setNotebook(newNotebook);
     }
 
-    return <NotebookContext.Provider value={{
-        notebook, setBlock, setNotebook, copyNotebook, blockCounter, setBlockCounter
-    }}>
+    return <NotebookContext.Provider
+        value={{
+            notebook,
+            setBlock,
+            setNotebook,
+            copyNotebook
+        }}
+    >
         {children}
     </NotebookContext.Provider>
 }

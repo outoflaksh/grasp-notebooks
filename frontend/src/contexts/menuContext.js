@@ -7,7 +7,7 @@ export function MenuProvider({children}){
     const [menuItems, setMenuItems] = useState([]);
 
     return (
-        <MenuContext.Provider value={{}}>
+        <MenuContext.Provider value={{menuItems, setMenuItems}}>
             {children}
         </MenuContext.Provider>
     );
