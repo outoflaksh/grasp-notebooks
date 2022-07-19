@@ -1,16 +1,14 @@
-import Block from "./components/Block";
 import "./styles/index.css"
-import Notebook from "./components/Notebook";
 import { NotebookProvider } from "./contexts";
+import Workplace from "./pages/workplace";
 
 
 function App() {
+
     return (
-            <NotebookProvider>
-            <div className="main">
-                <Notebook/>
-            </div>
-            </NotebookProvider>
+        <NotebookProvider>
+            <Workplace />
+        </NotebookProvider>
     );
 }
 
