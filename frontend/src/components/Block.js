@@ -4,18 +4,13 @@ import runCodeIcon from "../assets/runCode.png";
 import OutputTable from "./OutputTable";
 import { NotebookContext } from "../contexts/notebookContext";
 import { v4 as uuidv4 } from "uuid";
-import {sqlizeData, unescapeHTML, executeQuery} from "../utils";
-
+import { sqlizeData, unescapeHTML, executeQuery } from "../utils";
 
 function Block({ blockId, blockIdx }) {
     const codeBlockContent = useRef();
     const block = useRef();
-    const {
-        notebook,
-        setBlock,
-        copyNotebook,
-        setNotebook,
-    } = useContext(NotebookContext);
+    const { notebook, setBlock, copyNotebook, setNotebook } =
+        useContext(NotebookContext);
 
     useEffect(() => {
         block.current.addEventListener("mouseover", () => {
@@ -41,7 +36,12 @@ function Block({ blockId, blockIdx }) {
             id: blockId,
         };
         if (data.status) {
-            newOutput = sqlizeData(data.result);
+            if (data.result.length != 0) {
+                newOutput = sqlizeData(data.result);
+            } else {
+                newOutput = [["Ran successfully. No rows were returned."]];
+            }
+
             newBlock.output = newOutput;
             newBlock.outputStatus = true;
         } else {
@@ -105,21 +105,30 @@ function Block({ blockId, blockIdx }) {
                             }
                         >
                             <div className="output-block-info">
-                                <span className="clear-output" onClick={clearOutput}>
+                                <span
+                                    className="clear-output"
+                                    onClick={clearOutput}
+                                >
                                     [ CLEAR ]
                                 </span>
                             </div>
                             {(() => {
-                                if (notebook[blockIdx].outputStatus)
-                                    return (
-                                        <OutputTable data={notebook[blockIdx].output}></OutputTable>
-                                    );
-                                else
+                                if (notebook[blockIdx].outputStatus) {
+                                    if (notebook[blockIdx].output) {
+                                        return (
+                                            <OutputTable
+                                                data={notebook[blockIdx].output}
+                                            ></OutputTable>
+                                        );
+                                    }
+                                    return "Ran successfully. No rows were returned.";
+                                } else {
                                     return (
                                         <div className="output-text">
                                             {notebook[blockIdx].output}
                                         </div>
                                     );
+                                }
                             })()}
                         </div>
                     );
