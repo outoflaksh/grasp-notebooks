@@ -12,7 +12,11 @@ export function NotebookProvider({ children }) {
         },
     ]);
 
-    const [notebookName, setNotebookName] = useState("");
+    const savedName = localStorage.getItem("notebookName");
+
+    const [notebookName, setNotebookName] = useState(
+        savedName ? savedName : "untitled1"
+    );
 
     function copyNotebook(notebook) {
         let newNotebook = [];
