@@ -9,11 +9,23 @@ import { useMenu } from "../hooks";
 function Notebook() {
     const {
         notebook,
-        setNotebook, } = useContext(NotebookContext);
-    const { setMenuItems } = useContext(MenuContext);
+        setNotebook,
+        copyNotebook,
+        notebookName,
+        setNotebookName } = useContext(NotebookContext);
+
     useMenu([
+        <input key={uuidv4()} onChange={(e) => {
+            let v = ""+e.target.value;
+            console.log(v);
+            setNotebookName(v);
+            console.log(notebookName);
+        }}
+            className="notebook-name"
+            value={notebookName}
+        />,
         <button key={uuidv4()} onClick={saveNotebook}>Save</button>,
-        <button key={uuidv4()}>Clear All Output</button>,
+        <button key={uuidv4()} onClick={clearAll}>Clear All Output</button>,
         <button key={uuidv4()} onClick={startFresh}>Start Fresh</button>,
     ]);
 
@@ -39,6 +51,14 @@ function Notebook() {
                 id: uuidv4(),
             },
         ]);
+    }
+    function clearAll() {
+        let newNotebook = copyNotebook(notebook);
+        for (let i = 0; i < newNotebook.length; i++) {
+            newNotebook[i].output = "";
+            newNotebook[i].outputStatus = false;
+        }
+        setNotebook(newNotebook);
     }
 
     return (

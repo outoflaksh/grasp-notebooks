@@ -31,3 +31,12 @@
     margin: 2rem 0rem;
     margin-top: 0px;
 }
+
+.notebook-name{
+    background-color: transparent;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    color: white;
+    font-size: 1rem;
+    width:70px;
+}

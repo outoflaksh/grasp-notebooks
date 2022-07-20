@@ -11,6 +11,8 @@ export function NotebookProvider({ children }) {
         id: uuidv4,
     }]);
 
+    const [notebookName, setNotebookName] = useState("untitled1");
+
     function copyNotebook(notebook) {
         let newNotebook = [];
         for (let block of notebook) {
@@ -36,7 +38,9 @@ export function NotebookProvider({ children }) {
             notebook,
             setBlock,
             setNotebook,
-            copyNotebook
+            copyNotebook,
+            notebookName,
+            setNotebookName,
         }}
     >
         {children}
