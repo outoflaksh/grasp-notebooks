@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pprint import pprint
-from main import run_sql_query
+from logic.sql_handler import run_sql_query
 
 app = FastAPI(debug=True)
 
