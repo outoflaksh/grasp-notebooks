@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { NotebookContext } from "../contexts/notebookContext";
 import "../styles/notebook.css";
 import Block from "./Block";
@@ -12,23 +12,37 @@ function Notebook() {
         setNotebook,
         copyNotebook,
         notebookName,
-        setNotebookName } = useContext(NotebookContext);
+        setNotebookName,
+    } = useContext(NotebookContext);
+
+    useEffect(() => {
+        nameRef.current = notebookName;
+    }, [notebookName]);
+
+    const nameRef = useRef(notebookName);
 
     useMenu([
-        <input key={uuidv4()} onChange={(e) => {
-            let v = ""+e.target.value;
-            console.log(v);
-            setNotebookName(v);
-            console.log(notebookName);
-        }}
+        <input
+            key={uuidv4()}
+            onChange={(e) => {
+                let v = "" + e.target.value;
+                console.log(v);
+                setNotebookName(v);
+            }}
             className="notebook-name"
-            value={notebookName}
+            ref={nameRef}
+            // value={notebookName}
         />,
-        <button key={uuidv4()} onClick={saveNotebook}>Save</button>,
-        <button key={uuidv4()} onClick={clearAll}>Clear All Output</button>,
-        <button key={uuidv4()} onClick={startFresh}>Start Fresh</button>,
+        <button key={uuidv4()} onClick={saveNotebook}>
+            Save
+        </button>,
+        <button key={uuidv4()} onClick={clearAll}>
+            Clear All Output
+        </button>,
+        <button key={uuidv4()} onClick={startFresh}>
+            Start Fresh
+        </button>,
     ]);
-
 
     async function saveNotebook() {
         const requestBody = JSON.stringify(notebook);
@@ -64,15 +78,18 @@ function Notebook() {
     return (
         <div className="notebook-wrapper">
             <div className="notebook">
-                {notebook.map((block, blockIdx) =>
-                    <div className="block-wrapper" key={"block-wrapper" + block.id}>
+                {notebook.map((block, blockIdx) => (
+                    <div
+                        className="block-wrapper"
+                        key={"block-wrapper" + block.id}
+                    >
                         <Block
                             blockIdx={blockIdx}
                             blockId={block.id}
                             key={"block" + block.id}
                         />
                     </div>
-                )}
+                ))}
             </div>
         </div>
     );

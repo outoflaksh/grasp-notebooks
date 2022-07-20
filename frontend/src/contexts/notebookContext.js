@@ -2,16 +2,17 @@ import { createContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 export const NotebookContext = createContext();
 
-
 export function NotebookProvider({ children }) {
-    const [notebook, setNotebook] = useState([{
-        code: "",
-        output: "",
-        outputStatus: false,
-        id: uuidv4,
-    }]);
+    const [notebook, setNotebook] = useState([
+        {
+            code: "",
+            output: "",
+            outputStatus: false,
+            id: uuidv4,
+        },
+    ]);
 
-    const [notebookName, setNotebookName] = useState("untitled1");
+    const [notebookName, setNotebookName] = useState("");
 
     function copyNotebook(notebook) {
         let newNotebook = [];
@@ -29,20 +30,22 @@ export function NotebookProvider({ children }) {
 
     function setBlock(blockId, block) {
         let newNotebook = copyNotebook(notebook);
-        newNotebook[blockId] = block
+        newNotebook[blockId] = block;
         setNotebook(newNotebook);
     }
 
-    return <NotebookContext.Provider
-        value={{
-            notebook,
-            setBlock,
-            setNotebook,
-            copyNotebook,
-            notebookName,
-            setNotebookName,
-        }}
-    >
-        {children}
-    </NotebookContext.Provider>
+    return (
+        <NotebookContext.Provider
+            value={{
+                notebook,
+                setBlock,
+                setNotebook,
+                copyNotebook,
+                notebookName,
+                setNotebookName,
+            }}
+        >
+            {children}
+        </NotebookContext.Provider>
+    );
 }
