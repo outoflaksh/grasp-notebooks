@@ -15,11 +15,7 @@ function Notebook() {
         setNotebookName,
     } = useContext(NotebookContext);
 
-    useEffect(() => {
-        nameRef.current = notebookName;
-    }, [notebookName]);
-
-    const nameRef = useRef(notebookName);
+    useEffect(() => {}, [notebookName]);
 
     useMenu([
         <input
@@ -28,10 +24,10 @@ function Notebook() {
                 let v = "" + e.target.value;
                 console.log(v);
                 setNotebookName(v);
+                localStorage.setItem("notebookName", e.target.value);
             }}
             className="notebook-name"
-            ref={nameRef}
-            // value={notebookName}
+            defaultValue={notebookName}
         />,
         <button key={uuidv4()} onClick={saveNotebook}>
             Save
