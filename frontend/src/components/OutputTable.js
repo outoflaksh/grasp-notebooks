@@ -1,4 +1,4 @@
-import "../styles/outputTable.css"
+import "../styles/outputTable.css";
 
 function OutputTable({ data }) {
     let headingArr = data[0];
@@ -8,15 +8,19 @@ function OutputTable({ data }) {
         <table className="output-table">
             <thead>
                 <tr>
-                    {headingArr.map(col => <td key={col}>{col}</td>)}
+                    {headingArr.map((col) => (
+                        <td key={col}>{col}</td>
+                    ))}
                 </tr>
             </thead>
             <tbody>
-                {bodyArr.map(row =>
-                    <tr key={"row".concat(row[0])}>
-                        {row.map(el => <td key={"col".concat(el)}>{el}</td>)}
+                {bodyArr.map((row, idx) => (
+                    <tr key={"row".concat(idx)}>
+                        {row.map((el) => (
+                            <td key={"col".concat(el)}>{el}</td>
+                        ))}
                     </tr>
-                )}
+                ))}
             </tbody>
         </table>
     );

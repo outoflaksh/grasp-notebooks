@@ -1,13 +1,11 @@
 export function sqlizeData(data) {
     let columns = [];
-    for (let column in data[0])
-        columns.push(column);
+    for (let column in data[0]) columns.push(column);
     let matrix = [[...columns]];
     data.shift();
     for (let r of data) {
         let row = [];
-        for (let col_name of columns)
-            row.push(r[col_name]);
+        for (let col_name of columns) row.push(r[col_name]);
         matrix.push(row);
     }
     return matrix;
