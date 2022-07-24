@@ -41,16 +41,26 @@ function Notebook() {
     ]);
 
     async function saveNotebook() {
-        const requestBody = JSON.stringify(notebook);
-        const response = await fetch("http://localhost:8000/save/", {
+        const requestBody = {
+            id: uuidv4(),
+            name: notebookName,
+            data: notebook,
+            author_username: "admin",
+        };
+
+        console.log(requestBody.id);
+
+        const response = await fetch("http://localhost:8000/nb/save/", {
             method: "POST",
             mode: "cors",
             credentials: "same-origin",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: requestBody,
+            body: JSON.stringify(requestBody),
         });
+
+        console.log(response.body);
     }
     function startFresh() {
         setNotebook([
