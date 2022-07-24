@@ -9,8 +9,12 @@ mysqlclient = "*"
 sqlalchemy = "*"
 fastapi = "*"
 uvicorn = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+python-jose = {extras = ["cryptography"], version = "*"}
+python-multipart = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
