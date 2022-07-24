@@ -15,6 +15,7 @@ def save_nb_data(nb_data: list, nb_id: str):
         pickle.dump(nb_data, f)
 
     print("Saved successfully")
+    return str(upload_path)
 
 
 def load_saved_nb_data(nb_id: str):
