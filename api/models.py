@@ -24,3 +24,10 @@ class SignupForm(User):
 
 class UserInDB(User):
     hashed_password: str
+
+
+class Notebook(BaseModel):
+    id: str
+    name: str 
+    data: list
+    author_username: str

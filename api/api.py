@@ -3,13 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .logic.sql_handler import run_sql_query
-from .routers import items, auth
+
+from .routers import items, auth, notebook
 
 app = FastAPI(debug=True)
 
 # Routers
 app.include_router(items.router, prefix="/items", tags=["items (protected)"])
 app.include_router(auth.router, prefix="/users", tags=["auth"])
+app.include_router(notebook.router, prefix="/nb", tags=["notebook"])
 
 notebook: list = None
 
