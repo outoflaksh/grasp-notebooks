@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..models import Notebook
+from ..models import NotebookRequest
 from ..utils.notebook_utils import save_nb_data, load_saved_nb_data
 
 router = APIRouter()
@@ -9,7 +9,7 @@ notebooks = []
 
 
 @router.post("/save", status_code=201)
-def save_notebook(notebook: Notebook):
+def save_notebook(notebook: NotebookRequest):
     notebooks.append(dict(notebook))
 
     save_nb_data(nb_data=notebook.data, nb_id=notebook.id)

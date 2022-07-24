@@ -1,8 +1,12 @@
-from fastapi import FastAPI, Request
+import email
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
+from .models import Base, UserDB
 from .logic.sql_handler import run_sql_query
+from .database import engine, get_db
 
 from .routers import items, auth, notebook
 
@@ -13,7 +17,9 @@ app.include_router(items.router, prefix="/items", tags=["items (protected)"])
 app.include_router(auth.router, prefix="/users", tags=["auth"])
 app.include_router(notebook.router, prefix="/nb", tags=["notebook"])
 
-notebook: list = None
+# Database setup
+Base.metadata.create_all(bind=engine)
+
 
 origins = ["*"]
 
@@ -35,20 +41,6 @@ def run_query(query: Query):
     result = run_sql_query(query.query)
 
     return {"result": result[1], "status": result[0]}
-
-
-@app.post("/save")
-def save(new_notebook: list):
-    global notebook
-    notebook = new_notebook
-    print("saving\n", notebook)
-    return {"result": "saved"}
-
-
-@app.get("/notebook")
-def notebook():
-    print("getting\n", notebook)
-    return {"notebook": notebook}
 
 
 @app.get("/healthcheck")

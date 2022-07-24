@@ -1,7 +1,8 @@
 from fastapi import Depends
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
-from ..models import UserInDB
+from ..models import UserDB, UserInDB
 from .token_utils import decode_access_token, oauth2_scheme
 
 
@@ -17,14 +18,17 @@ def verify_hash(password_input, hashed_password):
     return passwd_context.verify(password_input, hashed_password)
 
 
-def get_user(username: str, db):
-    for user in db:
-        if user["username"] == username:
-            return UserInDB(**user)
+def get_user(username: str, db: Session):
+    print(db)
+    users = db.query(UserDB).all()
+
+    for user in users:
+        if user.username == username:
+            return user
     return None
 
 
-def verify_user(form_data, db):
+def verify_user(form_data, db: Session):
     user = get_user(form_data.username, db)
 
     if user:
