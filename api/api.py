@@ -3,8 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .logic.sql_handler import run_sql_query
+from .routers import items, auth
 
 app = FastAPI(debug=True)
+
+# Routers
+app.include_router(items.router, prefix="/items", tags=["items (protected)"])
+app.include_router(auth.router, prefix="/users", tags=["auth"])
 
 notebook: list = None
 
@@ -42,3 +47,8 @@ def save(new_notebook: list):
 def notebook():
     print("getting\n", notebook)
     return {"notebook": notebook}
+
+
+@app.get("/healthcheck")
+def health_check():
+    return {"msg": "OK"}
