@@ -6,18 +6,70 @@ import { v4 as uuidv4 } from "uuid";
 import { MenuContext } from "../contexts/menuContext";
 import { useMenu } from "../hooks";
 
-function Notebook() {
+const getElementByIdAsync = id => new Promise(resolve => {
+    const getElement = () => {
+        const element = document.getElementById(id);
+        if (element) {
+            resolve(element);
+        } else {
+            requestAnimationFrame(getElement);
+        }
+    };
+    getElement();
+});
+
+
+function Notebook({ editable }) {
     const {
         notebook,
         setNotebook,
         copyNotebook,
         notebookName,
         setNotebookName,
+        notebookId,
     } = useContext(NotebookContext);
 
-    useEffect(() => {}, [notebookName]);
+    useEffect(() => { }, [notebookName]);
+    useEffect(() => {
+        async function saveNotebook() {
+            const requestBody = {
+                id: notebookId,
+                name: notebookName,
+                data: notebook,
+                author_username: "admin",
+            };
+            console.log("saving nb with data", notebook);
+            console.log(requestBody.id);
 
-    useMenu([
+            const response = await fetch("http://localhost:8000/nb/save/", {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            console.log(response.body);
+        }
+        const click = ()=>{
+            console.log("hello");
+            saveNotebook();
+        }
+        getElementByIdAsync("save-notebook-button").then((saveBtn) => {
+
+            saveBtn.addEventListener("click", click)
+        });
+        return () => {
+            getElementByIdAsync("save-notebook-button").then((saveBtn) => {
+                saveBtn.removeEventListener("click", click)
+            });
+        }
+
+    }, [notebook, notebookId, notebookName]);
+
+    useMenu(editable ? [
         <input
             key={uuidv4()}
             onChange={(e) => {
@@ -29,7 +81,7 @@ function Notebook() {
             className="notebook-name"
             defaultValue={notebookName}
         />,
-        <button key={uuidv4()} onClick={saveNotebook}>
+        <button key={uuidv4()} id="save-notebook-button">
             Save
         </button>,
         <button key={uuidv4()} onClick={clearAll}>
@@ -38,30 +90,11 @@ function Notebook() {
         <button key={uuidv4()} onClick={startFresh}>
             Start Fresh
         </button>,
-    ]);
+        <span key={uuidv4()}> share link: {"http://localhost:8000/nb/" + notebookId}</span>,
+    ] : [<span key="nb-name">{notebookName}</span>]
+    );
 
-    async function saveNotebook() {
-        const requestBody = {
-            id: uuidv4(),
-            name: notebookName,
-            data: notebook,
-            author_username: "admin",
-        };
 
-        console.log(requestBody.id);
-
-        const response = await fetch("http://localhost:8000/nb/save/", {
-            method: "POST",
-            mode: "cors",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-        });
-
-        console.log(response.body);
-    }
     function startFresh() {
         setNotebook([
             {
@@ -93,6 +126,7 @@ function Notebook() {
                             blockIdx={blockIdx}
                             blockId={block.id}
                             key={"block" + block.id}
+                            editable={editable}
                         />
                     </div>
                 ))}

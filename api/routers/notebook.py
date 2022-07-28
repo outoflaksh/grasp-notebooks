@@ -11,14 +11,17 @@ router = APIRouter()
 @router.post("/save", status_code=201)
 def save_notebook(notebook: NotebookRequest, db: Session = Depends(get_db)):
     nb_url = save_nb_data(nb_data=notebook.data, nb_id=notebook.id)
-
+    nb_data = notebook.data
     notebook = {
         "id": notebook.id,
         "name": notebook.name,
         "url": nb_url,
         "author_username": notebook.author_username
     }
-
+    print("saving nb")
+    print(notebook)
+    print("data:")
+    print(nb_data)
     notebook = Notebook(**notebook)
 
     db.add(notebook)

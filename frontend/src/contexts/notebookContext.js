@@ -8,9 +8,10 @@ export function NotebookProvider({ children }) {
             code: "",
             output: "",
             outputStatus: false,
-            id: uuidv4,
+            id: uuidv4(),
         },
     ]);
+    const [notebookId, setNotebookId] = useState(uuidv4());
 
     const savedName = localStorage.getItem("notebookName");
 
@@ -47,6 +48,8 @@ export function NotebookProvider({ children }) {
                 copyNotebook,
                 notebookName,
                 setNotebookName,
+                notebookId,
+                setNotebookId,
             }}
         >
             {children}

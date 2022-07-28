@@ -6,7 +6,7 @@ import { NotebookContext } from "../contexts/notebookContext";
 import { v4 as uuidv4 } from "uuid";
 import { sqlizeData, unescapeHTML, executeQuery } from "../utils";
 
-function Block({ blockId, blockIdx }) {
+function Block({ blockId, blockIdx, editable }) {
     const codeBlockContent = useRef();
     const block = useRef();
     const { notebook, setBlock, copyNotebook, setNotebook } =
@@ -25,9 +25,11 @@ function Block({ blockId, blockIdx }) {
 
     async function runCode() {
         clearOutput();
+        console.log("here");
         let code = codeBlockContent.current.innerHTML;
         let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
         let data = await executeQuery(sanitizedCode);
+        console.log("executed query");
         let newOutput = "";
         let newBlock = {
             code: sanitizedCode,
@@ -77,19 +79,39 @@ function Block({ blockId, blockIdx }) {
         newNotebook.splice(blockIdx, 1);
         setNotebook(newNotebook);
     }
+    function updateBlock(){
+        let code = codeBlockContent.current.innerHTML;
+        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
+        let newBlock = {
+            code: sanitizedCode,
+            output: notebook[blockIdx].output,
+            outputStatus: notebook[blockIdx].outputStatus,
+            id: blockId,
+        };
+        setBlock(blockIdx,newBlock);
+    }
     return (
         <div className="block" ref={block}>
             <div className="code-block">
                 <div className="code-block-info">
-                    <button className="run-code-button" onClick={runCode}>
-                        <img src={runCodeIcon} />
-                    </button>
+                    {
+                        editable ?
+                            <button className="run-code-button" onClick={runCode}>
+                                <img src={runCodeIcon} />
+                            </button>
+                            :
+                            <button className="run-code-button" onClick={runCode} disabled>
+                                <img src={runCodeIcon} />
+                            </button>
+                    }
+
                 </div>
                 <div
                     className="code-block-content"
-                    contentEditable="true"
+                    contentEditable={editable}
                     ref={codeBlockContent}
                     spellCheck="false"
+                    onKeyUpCapture={updateBlock}
                 />
             </div>
             {(() => {
@@ -134,14 +156,18 @@ function Block({ blockId, blockIdx }) {
                     );
                 else return null;
             })()}
-            <div className="block-optn-wrapper">
-                <button className="block-optn hide" onClick={addBlockBelow}>
-                    New Block
-                </button>
-                <button className="block-optn hide" onClick={removeBlock}>
-                    Delete Block
-                </button>
-            </div>
+            {editable ?
+                <div className="block-optn-wrapper">
+                    <button className="block-optn hide" onClick={addBlockBelow}>
+                        New Block
+                    </button>
+                    <button className="block-optn hide" onClick={removeBlock}>
+                        Delete Block
+                    </button>
+                </div>
+                : undefined
+            }
+
         </div>
     );
 }
