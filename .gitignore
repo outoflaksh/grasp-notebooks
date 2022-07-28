@@ -4,3 +4,4 @@ __pycache__
 node_modules/
 venv/
 api/uploads/
+/*.db
