@@ -18,7 +18,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 @router.post("/register", status_code=201)
-def create_user(form_data: SignupForm = Depends(), db: Session = Depends(get_db)):
+def create_user(form_data: SignupForm, db: Session = Depends(get_db)):
     user = get_user(form_data.username, db)
 
     if user:
