@@ -9,25 +9,31 @@ router = APIRouter()
 
 
 @router.post("/save", status_code=201)
-def save_notebook(notebook: NotebookRequest, db: Session = Depends(get_db)):
-    nb_url = save_nb_data(nb_data=notebook.data, nb_id=notebook.id)
-    nb_data = notebook.data
+def save_notebook(notebook_req: NotebookRequest, db: Session = Depends(get_db)):
+    nb_url = save_nb_data(nb_data=notebook_req.data, nb_id=notebook_req.id)
+
+    notebook = db.query(Notebook).filter_by(id=notebook_req.id).first()
+    if notebook:
+        return {"detail": "Notebook saved"}
+
     notebook = {
-        "id": notebook.id,
-        "name": notebook.name,
+        "id": notebook_req.id,
+        "name": notebook_req.name,
         "url": nb_url,
-        "author_username": notebook.author_username
+        "author_username": notebook_req.author_username
     }
-    print("saving nb")
-    print(notebook)
-    print("data:")
-    print(nb_data)
+
     notebook = Notebook(**notebook)
 
     db.add(notebook)
     db.commit()
 
     return {"detail": "Notebook saved"}
+
+
+@router.get("/all")
+def read_all_notebooks(db: Session = Depends(get_db)):
+    return db.query(Notebook).all()
 
 
 @router.get("/{notebook_id}")
