@@ -14,6 +14,9 @@ def save_notebook(notebook_req: NotebookRequest, db: Session = Depends(get_db)):
 
     notebook = db.query(Notebook).filter_by(id=notebook_req.id).first()
     if notebook:
+        notebook.name = notebook_req.name
+        db.commit()
+
         return {"detail": "Notebook saved"}
 
     notebook = {
