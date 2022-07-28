@@ -36,7 +36,7 @@
     font-weight: 600;
     /* border-bottom: 1px solid white; */
     color: var(--text-color);
-    font-size: 4rem;
+    font-size: 2.6rem;
     padding: 0rem 1rem;
     width: 100%;
 }
@@ -50,7 +50,7 @@
 
 .formContent>input {
     margin: 1rem 0rem;
-    font-size: 2rem;
+    font-size: 1.2rem;
     background-color: transparent;
     color: var(--text-color);
     border: 1px solid transparent;
