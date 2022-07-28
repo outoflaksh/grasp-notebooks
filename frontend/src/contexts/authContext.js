@@ -6,28 +6,37 @@ export default AuthContext;
 
 
 
-
+const getTokenFromStorage = () => {
+    const token = localStorage.getItem("access_token");
+    return token ? token : null;
+}
 
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(getTokenFromStorage());
 
     const login = token => {
-        setToken(token);
+        setTokenAndStore(token);
     }
 
     const logout = () => {
-        setToken(null);
+        setTokenAndStore(token);
     }
 
-    const hasExpired = () => {
+    const isLoggedIn = () => {
         const jsonToken = jwt_decode(token);
+        return false;
+    }
+
+    const setTokenAndStore = (token) => {
+        setToken(token);
+        localStorage.setItem("access_token", token);
     }
 
     const value = {
         token,
         login,
         logout,
-        hasExpired,
+        isLoggedIn,
     };
     return (
         <AuthContext.Provider value={value}>

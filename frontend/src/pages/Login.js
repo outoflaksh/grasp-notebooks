@@ -1,12 +1,11 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Navigate } from "react-router-dom";
+import AuthContext from "../contexts/authContext";
 import css from "../styles/entryForm.module.css";
 const Login = () => {
+    const {login} = useContext(AuthContext);
     const loginRef = useRef();
     const registerRef = useRef();
-    const handleLogin = (e) => {
-        e.preventDefault();
-    };
     const handleRegister = async (e) => {
         e.preventDefault();
         const form = registerRef.current;
@@ -14,13 +13,6 @@ const Login = () => {
             alert("passwords do not match");
             return;
         }
-        // const vals = {
-
-        // };
-        // for (let i of form.querySelectorAll("input")) {
-        //     vals[i.name] = i.value;
-        // }
-        // delete vals["confirm-password"];
         const requestBody = {
             username: form["username"].value,
             name: form["name"].value,
@@ -46,13 +38,41 @@ const Login = () => {
             }
         }
     };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const username = loginRef.current.username.value;
+        const password = loginRef.current.password.value;
+        console.log(username, password);
+        const requestBody = {
+            username: username,
+            password: password,
+        }
+        const response = await fetch("http://localhost:8000/users/login", {
+            method: "POST",
+            mode: "cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+        });
+        const data = await response.json();
+        if (response.status !== 200)
+            alert("error, username or password is incorrect");
+        else {
+            const token = data.access_token;
+            login(token);
+        }
+    }
+
     return (
         <div className={css.formContainer}>
             <form ref={loginRef}>
                 <header>login</header>
                 <div className={css.formContent}>
-                    <input placeholder="Username"></input>
-                    <input placeholder="Password" type="password"></input>
+                    <input placeholder="Username" name="username"></input>
+                    <input placeholder="Password" type="password" name="password"></input>
                     <div className={css.formSubmitContainer}>
                         <button className={css.btnGrad} onClick={handleLogin}>
                             login

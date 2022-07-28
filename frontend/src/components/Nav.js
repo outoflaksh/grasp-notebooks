@@ -1,6 +1,11 @@
 import Menu from "./Menu";
 import "../styles/nav.css"
+import { useContext } from "react";
+import AuthContext from "../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 function Nav() {
+    const { logout, isLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate
     return (
         <div className="nav">
             <div className="left">
@@ -8,8 +13,7 @@ function Nav() {
                 <Menu />
             </div>
             <div className="right">
-                <button>Login</button>
-                <button>Logout</button>
+                {isLoggedIn ? <button onClick={navigate("/login")}>Login</button> : <button onClick={logout}>Logout</button>}
             </div>
         </div>
     );

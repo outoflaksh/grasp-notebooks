@@ -15,8 +15,8 @@ function App() {
         <AuthProvider>
             <NotebookProvider>
                 <MenuProvider>
-                    <Nav />
                     <BrowserRouter>
+                        <Nav />
                         <Routes>
                             <Route path="workplace" element={<Workplace />} />
                             <Route path="login" element={<Login />} />
