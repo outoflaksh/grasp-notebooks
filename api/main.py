@@ -9,6 +9,8 @@ from .logic.sql_handler import run_sql_query
 from .database import engine, get_db
 
 from .routers import items, auth, notebook
+from bs4 import BeautifulSoup
+# cleantext = BeautifulSoup(raw_html, "lxml").text
 
 app = FastAPI(debug=True)
 
@@ -38,7 +40,8 @@ class Query(BaseModel):
 
 @app.post("/run")
 def run_query(query: Query):
-    result = run_sql_query(query.query)
+    query = BeautifulSoup(query.query, "lxml").text
+    result = run_sql_query(query)
 
     return {"result": result[1], "status": result[0]}
 

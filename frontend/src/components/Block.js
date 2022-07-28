@@ -27,12 +27,12 @@ function Block({ blockId, blockIdx, editable }) {
         clearOutput();
         console.log("here");
         let code = codeBlockContent.current.innerHTML;
-        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
-        let data = await executeQuery(sanitizedCode);
+        // let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
+        let data = await executeQuery(code);
         console.log("executed query");
         let newOutput = "";
         let newBlock = {
-            code: sanitizedCode,
+            code: code,
             output: "",
             outputStatus: false,
             id: blockId,
@@ -54,9 +54,9 @@ function Block({ blockId, blockIdx, editable }) {
     }
     function clearOutput() {
         let code = codeBlockContent.current.innerHTML;
-        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
+        // let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
         let newBlock = {
-            code: sanitizedCode,
+            code: code,
             output: "",
             outputStatus: false,
             id: blockId,
@@ -79,16 +79,16 @@ function Block({ blockId, blockIdx, editable }) {
         newNotebook.splice(blockIdx, 1);
         setNotebook(newNotebook);
     }
-    function updateBlock(){
+    function updateBlock() {
         let code = codeBlockContent.current.innerHTML;
-        let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
+        // let sanitizedCode = unescapeHTML(code.replace(/(<([^>]+)>)/gi, ""));
         let newBlock = {
-            code: sanitizedCode,
+            code: code,
             output: notebook[blockIdx].output,
             outputStatus: notebook[blockIdx].outputStatus,
             id: blockId,
         };
-        setBlock(blockIdx,newBlock);
+        setBlock(blockIdx, newBlock);
     }
     return (
         <div className="block" ref={block}>
@@ -106,13 +106,22 @@ function Block({ blockId, blockIdx, editable }) {
                     }
 
                 </div>
-                <div
-                    className="code-block-content"
-                    contentEditable={editable}
-                    ref={codeBlockContent}
-                    spellCheck="false"
-                    onKeyUpCapture={updateBlock}
-                />
+                {
+                    editable ?
+                        <div
+                            className="code-block-content"
+                            contentEditable="true"
+                            ref={codeBlockContent}
+                            spellCheck="false"
+                            onKeyUpCapture={updateBlock}
+                        />
+                        : <div
+                            className="code-block-content"
+                        >
+                            {notebook[blockIdx].code}
+                        </div>
+                }
+
             </div>
             {(() => {
                 if (notebook[blockIdx].output.length > 0)
