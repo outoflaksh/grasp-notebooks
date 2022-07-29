@@ -14,7 +14,7 @@ from ..database import get_db
 
 router = APIRouter()
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60*24*7
 
 
 @router.post("/register", status_code=201)
