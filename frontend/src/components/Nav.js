@@ -13,7 +13,7 @@ function Nav() {
                 <Menu />
             </div>
             <div className="right">
-                {isLoggedIn ? <button onClick={navigate("/login")}>Login</button> : <button onClick={logout}>Logout</button>}
+                {isLoggedIn() ? <button onClick={logout}>Logout</button> : <button onClick={navigate("/login")}>Login</button>}
             </div>
         </div>
     );

@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import AuthContext from "../contexts/authContext";
 import css from "../styles/entryForm.module.css";
 const Login = () => {
-    const {login} = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const loginRef = useRef();
     const registerRef = useRef();
     const handleRegister = async (e) => {
@@ -44,20 +44,28 @@ const Login = () => {
         const username = loginRef.current.username.value;
         const password = loginRef.current.password.value;
         console.log(username, password);
-        const requestBody = {
+        const details = {
             username: username,
             password: password,
         }
+        var formBody = [];
+        for (var property in details) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(details[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
         const response = await fetch("http://localhost:8000/users/login", {
             method: "POST",
             mode: "cors",
             credentials: "same-origin",
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },
-            body: JSON.stringify(requestBody),
+            body: formBody,
         });
         const data = await response.json();
+        // console.log(data);
         if (response.status !== 200)
             alert("error, username or password is incorrect");
         else {

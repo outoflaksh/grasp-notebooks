@@ -19,12 +19,13 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        setTokenAndStore(token);
+        setTokenAndStore(null);
+        console.log("here");
     }
 
     const isLoggedIn = () => {
-        const jsonToken = jwt_decode(token);
-        return false;
+        const jsonToken = token && (token != "null")? jwt_decode(token) : null;
+        return jsonToken ? true : false;
     }
 
     const setTokenAndStore = (token) => {
