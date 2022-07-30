@@ -6,18 +6,18 @@ import { v4 as uuidv4 } from "uuid";
 import { MenuContext } from "../contexts/menuContext";
 import { useMenu } from "../hooks";
 
-const getElementByIdAsync = id => new Promise(resolve => {
-    const getElement = () => {
-        const element = document.getElementById(id);
-        if (element) {
-            resolve(element);
-        } else {
-            requestAnimationFrame(getElement);
-        }
-    };
-    getElement();
-});
-
+const getElementByIdAsync = (id) =>
+    new Promise((resolve) => {
+        const getElement = () => {
+            const element = document.getElementById(id);
+            if (element) {
+                resolve(element);
+            } else {
+                requestAnimationFrame(getElement);
+            }
+        };
+        getElement();
+    });
 
 function Notebook({ editable }) {
     const {
@@ -29,7 +29,7 @@ function Notebook({ editable }) {
         notebookId,
     } = useContext(NotebookContext);
 
-    useEffect(() => { }, [notebookName]);
+    useEffect(() => {}, [notebookName]);
     useEffect(() => {
         async function saveNotebook() {
             const requestBody = {
@@ -51,49 +51,52 @@ function Notebook({ editable }) {
                 body: JSON.stringify(requestBody),
             });
 
-            console.log(response.body);
+            console.log(response);
         }
-        const click = ()=>{
+        const click = () => {
             console.log("hello");
             saveNotebook();
-        }
+        };
         getElementByIdAsync("save-notebook-button").then((saveBtn) => {
-
-            saveBtn.addEventListener("click", click)
+            saveBtn.addEventListener("click", click);
         });
         return () => {
             getElementByIdAsync("save-notebook-button").then((saveBtn) => {
-                saveBtn.removeEventListener("click", click)
+                saveBtn.removeEventListener("click", click);
             });
-        }
-
+        };
     }, [notebook, notebookId, notebookName]);
 
-    useMenu(editable ? [
-        <input
-            key={uuidv4()}
-            onChange={(e) => {
-                let v = "" + e.target.value;
-                console.log(v);
-                setNotebookName(v);
-                localStorage.setItem("notebookName", e.target.value);
-            }}
-            className="notebook-name"
-            defaultValue={notebookName}
-        />,
-        <button key={uuidv4()} id="save-notebook-button">
-            Save
-        </button>,
-        <button key={uuidv4()} onClick={clearAll}>
-            Clear All Output
-        </button>,
-        <button key={uuidv4()} onClick={startFresh}>
-            Start Fresh
-        </button>,
-        <span key={uuidv4()}> share link: {"http://localhost:8000/nb/" + notebookId}</span>,
-    ] : [<span key="nb-name">{notebookName}</span>]
+    useMenu(
+        editable
+            ? [
+                  <input
+                      key={uuidv4()}
+                      onChange={(e) => {
+                          let v = "" + e.target.value;
+                          console.log(v);
+                          setNotebookName(v);
+                          localStorage.setItem("notebookName", e.target.value);
+                      }}
+                      className="notebook-name"
+                      defaultValue={notebookName}
+                  />,
+                  <button key={uuidv4()} id="save-notebook-button">
+                      Save
+                  </button>,
+                  <button key={uuidv4()} onClick={clearAll}>
+                      Clear All Output
+                  </button>,
+                  <button key={uuidv4()} onClick={startFresh}>
+                      Start Fresh
+                  </button>,
+                  <span key={uuidv4()}>
+                      {" "}
+                      share link: {"http://localhost:8000/nb/" + notebookId}
+                  </span>,
+              ]
+            : [<span key="nb-name">{notebookName}</span>]
     );
-
 
     function startFresh() {
         setNotebook([
