@@ -47,7 +47,7 @@ const Login = () => {
         const details = {
             username: username,
             password: password,
-        }
+        };
         var formBody = [];
         for (var property in details) {
             var encodedKey = encodeURIComponent(property);
@@ -60,7 +60,8 @@ const Login = () => {
             mode: "cors",
             credentials: "same-origin",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8",
             },
             body: formBody,
         });
@@ -71,8 +72,9 @@ const Login = () => {
         else {
             const token = data.access_token;
             login(token);
+            localStorage.setItem("currUser", details.username);
         }
-    }
+    };
 
     return (
         <div className={css.formContainer}>
@@ -80,7 +82,11 @@ const Login = () => {
                 <header>login</header>
                 <div className={css.formContent}>
                     <input placeholder="Username" name="username"></input>
-                    <input placeholder="Password" type="password" name="password"></input>
+                    <input
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                    ></input>
                     <div className={css.formSubmitContainer}>
                         <button className={css.btnGrad} onClick={handleLogin}>
                             login
