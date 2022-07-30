@@ -28,7 +28,9 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             <h1 className="heading">Notebook Dashboard</h1>
-            <button className="new-nb-btn">Create a new notebook</button>
+            <a href="workplace" target="_blank">
+                <button className="new-nb-btn">Create a new notebook</button>
+            </a>
             <p>{loading && "Loading..."}</p>
             <section className="nb-container">
                 {nb && <NotebookCardList nb={nb} />}
