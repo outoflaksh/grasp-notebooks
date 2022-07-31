@@ -17,8 +17,8 @@ function App() {
                     <BrowserRouter>
                         <Nav />
                         <Routes>
+                            <Route path="" element={<Login />} />
                             <Route path="workplace" element={<Workplace />} />
-                            <Route path="login" element={<Login />} />
                             <Route path="nb/:id" element={<NotebookView />} />
                             <Route path="dashboard" element={<Dashboard />} />
                         </Routes>
