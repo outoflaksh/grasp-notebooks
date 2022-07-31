@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/outoflaksh/grasp-notebooks">
-    <img src="frontend/public/logo.png" alt="Logo" width="auto" height="60">
+    <img src="./frontend/public/logo.png" width="auto" height="60">
   </a>
 
   <p align="center">
