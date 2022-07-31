@@ -22,6 +22,10 @@
     
 }
 
+.nav-link {
+    text-decoration: none;
+}
+
 
 .brand {
     font-family: 'Cairo', sans-serif;
@@ -31,7 +35,7 @@
     font-size: 2.5rem;
 }
 
-button {
+button, .btn {
     background-color: transparent;
     outline: none;
     border: none;
@@ -40,6 +44,6 @@ button {
     color: white;
     cursor: pointer;
 }
-button:hover{
+button:hover, .btn:hover{
     background-color: var(--highlight-color);
 }
